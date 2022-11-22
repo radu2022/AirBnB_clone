@@ -1,145 +1,217 @@
-# AIRBNB CONSOLE
---
-<img src="/images/console.png" border="0">
-This project is the first step towards building a full web application: the AirBnB clone.
-
-The console or command interpreter create the data model and allows create, update, destroy, store and persist objects to a file (JSON file). This console will be a tool to validate this storage engine.
-
-## Table of Contents
----
-* Objetives
-* Requeriments
-* Installation and execution
-* Console commands
-* Tests
-* Development environment
-* Authors
-
-## Objectives
----
-* How to create a Python package
-* How to create a command interpreter in Python using the cmd module
-* What is Unit testing and how to implement it in a large project
-* How to serialize and deserialize a Class
-* How to write and read a JSON file
-* How to manage datetime
-* What is an UUID
-* What is *args and how to use it
-* What is **kwargs and how to use it
-* How to handle named arguments in a function
-
-## Requeriments 📋
----
-Airbnb was built and tested in Ubuntu 20.04 LTS using python3 (version 3.8.5)
-
-## Installation and execution 🔧
----
-* Clone the repository
-> $ git clone https://github.com/radu2022/AirBnB_clone.git
-* Move in to the directory
-> $ cd AirBnB_clone
-* Execute the console file
-> /AirBnB_clone$ ./console.py
+<div>
+  <img src="https://user-images.githubusercontent.com/69850751/175876062-f252cc1b-bd44-46b3-9ddb-a7692b2eede4.png"     alt="">
+</div>
 
 
-## Console commands
----
-The commands available for this command interpreter are:
+## Description :house:
 
-| Name       | Description   |
-| ---------- | ------------- |
-|**create*| Creates a new instance of the class passed by argument.|
-|*show*| Prints the string representation of an instance.                                        |
-|**destroy*| Deletes an instance that was already created.                                           |
-|*all*| Prints string representation of all instances or of all instances of a specified class. |
-|**update*| Updates an instance attribute if exists otherwise create it.                            |
-|*help*| Show all commands or display information about a specific command.|
-|*quit*| Exit the console.|
-|*EOF*| Exit the console.|
+Airbnb clone is a complete web application, integrating database storage, 
+a back-end API, and front-end interfacing in a clone of AirBnB.
 
-**create, destroy and update commands save changes into a JSON file.*
+The project currently only implements the back-end console.
 
-### Commands usage: 
+## Classes :cl:
 
+AirBnB utilizes the following classes:
 
-| *Command*  | *Usage* |
-| -------- | -------- |
-|*create*  | ***create*** <class_name>|
-|*show*    | ***show*** <class_name> <object_id> **;** <class_name>.***show***(<object_id>)()|
-|*destroy* | ***destroy*** <class_name> <object_id **;** <class_name>.***destroy***(<object_id>)()|
-| *all*    | **all** <class_name> **;** <class_name>.**all**()|
-| *update* | ***update*** <class_name> <object_id> <attribute name> "<attribute value>" **;** <class name>.***update***(<object_id>, <attribute name>, <attribute value>) **;** <class name>.***update***(<object_id>, <dictionary representation>)|
-| *help*   | ***help*** **;** ***help*** <command_name>|
-| *quit*   | ***quit*** |
-| *EOF*    | ***EOF*** **;** (ctrl + d)|
+|     | BaseModel | FileStorage | User | State | City | Amenity | Place | Review |
+| --- | --------- | ----------- | -----| ----- | -----| ------- | ----- | ------ |
+| **PUBLIC INSTANCE ATTRIBUTES** | `id`<br>`created_at`<br>`updated_at` | | Inherits from `BaseModel` | Inherits from `BaseModel` | Inherits from `BaseModel` | Inherits from `BaseModel` | Inherits from `BaseModel` | Inherits from `BaseModel` |
+| **PUBLIC INSTANCE METHODS** | `save`<br>`to_dict` | `all`<br>`new`<br>`save`<br>`reload` | "" | "" | "" | "" | "" | "" |
+| **PUBLIC CLASS ATTRIBUTES** | | | `email`<br>`password`<br>`first_name`<br>`last_name`| `name` | `state_id`<br>`name` | `name` | `city_id`<br>`user_id`<br>`name`<br>`description`<br>`number_rooms`<br>`number_bathrooms`<br>`max_guest`<br>`price_by_night`<br>`latitude`<br>`longitude`<br>`amenity_ids` | `place_id`<br>`user_id`<br>`text` | 
+| **PRIVATE CLASS ATTRIBUTES** | | `file_path`<br>`objects` | | | | | | |
 
-## Tests ⚙️
----
+## Storage :baggage_claim:
 
-### Interactive Mode ⌨️
+The above classes are handled by the abstracted storage engine defined in the 
+[FileStorage](./models/engine/file_storage.py) class.
 
-#### Example 1: Using create, count and all commands
-```
-solid@DESKTOP-6PPFSAT:~/H/AirBnB_clone$ ./console.py 
-(hbnb) all
-[]
-(hbnb) create Place
-492f60f3-ff1e-43c7-bb11-f8407b04dd59
-(hbnb) create BaseModel
-99f01e9a-99c0-42af-8c10-c35cadee1d8f
-(hbnb) BaseModel.count()
-1
-(hbnb) all
-["[Place] (492f60f3-ff1e-43c7-bb11-f8407b04dd59) {'id': '492f60f3-ff1e-43c7-bb11-f8407b04dd59', 'created_at': datetime.datetime(2020, 7, 1, 11, 36, 24, 576486), 'updated_at': datetime.datetime(2020, 7, 1, 11, 36, 24, 576530)}", "[BaseModel] (99f01e9a-99c0-42af-8c10-c35cadee1d8f) {'id': '99f01e9a-99c0-42af-8c10-c35cadee1d8f', 'created_at': datetime.datetime(2020, 7, 1, 11, 36, 30, 773211), 'updated_at': datetime.datetime(2020, 7, 1, 11, 36, 30, 773236)}"]
-(hbnb)
-```
+Every time the backend is initialized, AirBnB instantiates an instance of 
+`FileStorage` called `storage`. The `storage` object is loaded/re-loaded from 
+any class instances stored in the JSON file `file.json`. As class instances are 
+created, updated, or deleted, the `storage` object is used to register 
+corresponding changes in the `file.json`.
 
-#### Example 2: Using basic update with an Id and show command
+## Console :computer:
+
+The console is a command line interpreter that permits management of the backend 
+of AirBnB. It can be used to handle and manipulate all classes utilized by 
+the application (achieved by calls on the `storage` object defined above).
+
+### Using the Console
+
+The AirBnB console can be run both interactively and non-interactively. 
+To run the console in non-interactive mode, pipe any command(s) into an execution 
+of the file `console.py` at the command line.
 
 ```
-(hbnb) update BaseModel 99f01e9a-99c0-42af-8c10-c35cadee1d8f first_name "Betty"
-(hbnb) show BaseModel 99f01e9a-99c0-42af-8c10-c35cadee1d8f
-[BaseModel] (99f01e9a-99c0-42af-8c10-c35cadee1d8f) {'id': '99f01e9a-99c0-42af-8c10-c35cadee1d8f', 'created_at': datetime.datetime(2020, 7, 1, 11, 36, 30, 773211), 'updated_at': datetime.datetime(2020, 7, 1, 11, 36, 30, 773236), 'first_name': 'Betty'}
-(hbnb) Place.update("492f60f3-ff1e-43c7-bb11-f8407b04dd59", "first_name", "John")
-(hbnb) show Place 492f60f3-ff1e-43c7-bb11-f8407b04dd59
-[Place] (492f60f3-ff1e-43c7-bb11-f8407b04dd59) {'id': '492f60f3-ff1e-43c7-bb11-f8407b04dd59', 'created_at': datetime.datetime(2020, 7, 1, 11, 36, 24, 576486), 'updated_at': datetime.datetime(2020, 7, 1, 11, 36, 24, 576530), 'first_name': 'John'}
+$ echo "help" | ./console.py
+(hbnb) 
+Documented commands (type help <topic>):
+========================================
+EOF  all  count  create  destroy  help  quit  show  update
+
+(hbnb) 
+$
 ```
 
-#### Example 3: Using update with a dictionary
+Alternatively, to use the AirBnB console in interactive mode, run the 
+file `console.py` by itself:
 
 ```
-(hbnb) BaseModel.update("99f01e9a-99c0-42af-8c10-c35cadee1d8f", {'first_name': "Petter", "age": 45})
-(hbnb) show BaseModel 99f01e9a-99c0-42af-8c10-c35cadee1d8f
-[BaseModel] (99f01e9a-99c0-42af-8c10-c35cadee1d8f) {'id': '99f01e9a-99c0-42af-8c10-c35cadee1d8f', 'created_at': datetime.datetime(2020, 7, 1, 11, 36, 30, 773211), 'updated_at': datetime.datetime(2020, 7, 1, 11, 36, 30, 773236), 'first_name': 'Petter', 'age': '45'}
+$ ./console.py
 ```
-#### Example 4: Using destroy and count command
+
+While running in interactive mode, the console displays a prompt for input:
+
 ```
-(hbnb) BaseModel.destroy("99f01e9a-99c0-42af-8c10-c35cadee1d8f")
-(hbnb) all
-["[Place] (492f60f3-ff1e-43c7-bb11-f8407b04dd59) {'id': '492f60f3-ff1e-43c7-bb11-f8407b04dd59', 'created_at': datetime.datetime(2020, 7, 1, 11, 36, 24, 576486), 'updated_at': datetime.datetime(2020, 7, 1, 11, 36, 24, 576530), 'first_name': 'John'}"]
-(hbnb) BaseModel.count()
-0
+$ ./console.py
+(hbnb) 
+```
+
+To quit the console, enter the command `quit`, or input an EOF signal 
+(`ctrl-D`).
+
+```
+$ ./console.py
 (hbnb) quit
-solid@DESKTOP-6PPFSAT:~/H/AirBnB_clone$
+$
 ```
 
-### Non - Interactive Mode ⌨️
 ```
-solid@DESKTOP-6PPFSAT:~/H/AirBnB_clone$ echo "create User" | ./console.py
-(hbnb) 55b76419-6009-4b36-b88a-7c2930283f4a
-solid@DESKTOP-6PPFSAT:~/H/AirBnB_clone$ echo "show User 55b76419-6009-4b36-b88a-7c2930283f4a" | ./console.py
-(hbnb) [User] (55b76419-6009-4b36-b88a-7c2930283f4a) {'id': '55b76419-6009-4b36-b88a-7c2930283f4a', 'created_at': datetime.datetime(2020, 7, 1, 12, 37, 15, 575191), 'updated_at': datetime.datetime(2020, 7, 1, 12, 37, 15, 575237)}
+$ ./console.py
+(hbnb) EOF
+$
 ```
 
-## Development environment 🛠️
-This project has been tested on Ubuntu 20.04 LTS using python3 (version 3.8.5)
+### Console Commands
 
-* Programming language Python
-* The tests are carried out in virtualBox
-* Development environment manager vagrant
-* Style guidelines:  pycodestyle (version 2.8.*)
+The AirBnB console supports the following commands:
 
-## AUTHORS✒️
+* **create**
+  * Usage: `create <class>`
+
+Creates a new instance of a given class. The class' ID is printed and 
+the instance is saved to the file `file.json`.
+
+* **show**
+  * Usage: `show <class> <id>` or `<class>.show(<id>)`
+
+Prints the string representation of a class instance based on a given id.
+
+```
+$ ./console.py
+(hbnb) create User
+(hbnb)
+(hbnb) show User uid		
+(hbnb) 
+(hbnb) User.show(uid)
+(hbnb) 
+```
+* **destroy**
+  * Usage: `destroy <class> <id>` or `<class>.destroy(<id>)`
+
+Deletes a class instance based on a given id. The storage file `file.json` 
+is updated accordingly.
+
+```
+$ ./console.py
+(hbnb) create State
+(hbnb) create Place
+(hbnb)
+(hbnb) destroy State uid
+(hbnb) Place.destroy(uid)
+(hbnb) quit
+$ cat file.json ; echo ""
+{}
+```
+
+* **all**
+  * Usage: `all` or `all <class>` or `<class>.all()`
+
+Prints the string representations of all instances of a given class. If no 
+class name is provided, the command prints all instances of every class.
+
+```
+$ ./console.py
+(hbnb) create BaseModel
+(hbnb) create BaseModel
+(hbnb) create User
+(hbnb) create User
+(hbnb)
+(hbnb) all BaseModel
+(hbnb)
+(hbnb) User.all()
+(hbnb) 
+(hbnb) all
+```
+
+* **count**
+  * Usage: `count <class>` or `<class>.count()`
+
+Retrieves the number of instances of a given class.
+
+```
+$ ./console.py
+(hbnb) create Place
+(hbnb) create Place
+(hbnb) create City
+(hbnb) 
+(hbnb) count Place
+2
+(hbnb) city.count()
+1
+(hbnb) 
+```
+
+* **update**
+  * Usage: `update <class> <id> <attribute name> "<attribute value>"` or
+`<class>.update(<id>, <attribute name>, <attribute value>)` or `<class>.update(
+<id>, <attribute dictionary>)`.
+
+Updates a class instance based on a given id with a given key/value attribute 
+pair or dictionary of attribute pairs. If `update` is called with a single 
+key/value attribute pair, only "simple" attributes can be updated (ie. not 
+`id`, `created_at`, and `updated_at`). However, any attribute can be updated by 
+providing a dictionary.
+
+```
+$ ./console.py
+(hbnb) create User
+(hbnb)
+(hbnb) update User id first_name "name"
+(hbnb) show User uid
+(hbnb)
+(hbnb) User.update(uid), address, "address")
+(hbnb) User.show(uid)
+(hbnb)
+(hbnb) User.update(uid, {'email': 'email', 'last_name': 'last_name'})
+(hbnb) 
+```
+
+## Testing :straight_ruler:
+
+Unittests for the Airbnb_clone project are defined in the [tests](./tests) 
+folder. To run the entire test suite simultaneously, execute the following command:
+
+```
+$ python3 unittest -m discover tests
+```
+
+Alternatively, you can specify a single test file to run at a time:
+
+```
+$ python3 unittest -m tests/test_console.py
+```
+
+## Team
+
+[![Hunter Casbeer](https://avatars1.githubusercontent.com/u/6034810?v=3&s=230)](https://github.com/radu2022) | [![Seid Hamid](https://avatars3.githubusercontent.com/u/23224088?v=3&s=230)](https://github.com/radu2022)
+:---:|:---:
+[Hunter Casbeer](https://github.com/radu2022) <a target="_blank" href="https://twitter.com/YasSeid"> <img src="https://cloud.githubusercontent.com/assets/23224088/24941419/2f3fc5ce-1eff-11e7-9ed3-85693579df09.png" height="20"></a> | [Seid Hamid](https://github.com/dewdrops77) <a target="_blank" href="https://twitter.com/leonnieokojie"> <img src="https://cloud.githubusercontent.com/assets/23224088/24941419/2f3fc5ce-1eff-11e7-9ed3-85693579df09.png" height="20"></a>
+
+
+## Authors :black_nib:
 ---
 
 * [Seid Hamid Muhammed](https://github.com/radu2022) - Software Engineering student at  [alx School/ The Room]
