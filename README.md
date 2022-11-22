@@ -204,12 +204,13 @@ Alternatively, you can specify a single test file to run at a time:
 $ python3 unittest -m tests/test_console.py
 ```
 
+
 ## Team
 
-[![Hunter Casbeer](https://avatars1.githubusercontent.com/u/6034810?v=3&s=230)](https://github.com/radu2022) | [![Seid Hamid](https://avatars3.githubusercontent.com/u/23224088?v=3&s=230)](https://github.com/radu2022)
+[![Seid Hamid](https://github.com/account)](https://github.com/radu2022) | [![Leonnie Okojie](https://avatars.githubusercontent.com/u/107578166?v=4)](https://github.com/dewdrops77)
 :---:|:---:
-[Hunter Casbeer](https://github.com/radu2022) <a target="_blank" href="https://twitter.com/YasSeid"> <img src="https://cloud.githubusercontent.com/assets/23224088/24941419/2f3fc5ce-1eff-11e7-9ed3-85693579df09.png" height="20"></a> | [Seid Hamid](https://github.com/dewdrops77) <a target="_blank" href="https://twitter.com/leonnieokojie"> <img src="https://cloud.githubusercontent.com/assets/23224088/24941419/2f3fc5ce-1eff-11e7-9ed3-85693579df09.png" height="20"></a>
-
+[Seid Hamid](https://github.com/radu2022) <a target="_blank" href="https://twitter.com/YasSeid"> <img src="https://pbs.twimg.com/profile_images/1427319814251503618/lxUuqFuV.jpg" height="20"></a> | [Leonnie Okojie](https://github.com/dewdrops77) <a target="_blank" href="https://twitter.com/dewdrops77"> <https://avatars.githubuserco\
+ntent.com/u/107578166?v=4" height="20"></a>
 
 ## Authors :black_nib:
 ---
