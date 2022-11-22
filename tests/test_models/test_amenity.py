@@ -1,40 +1,52 @@
 #!/usr/bin/python3
-"""Unittest for amenity file: class and methods"""
+"""Unittest module for the Amenity Class."""
 
-import pep8
 import unittest
-from models import amenity
+from datetime import datetime
+import time
 from models.amenity import Amenity
+import re
+import json
+from models.engine.file_storage import FileStorage
+import os
+from models import storage
+from models.base_model import BaseModel
 
 
-class TestBaseModelpep8(unittest.TestCase):
-    """Validate pep8"""
+class TestAmenity(unittest.TestCase):
 
-    def test_pep8(self):
-        """test for base file and test_base file pep8"""
-        style = pep8.StyleGuide(quiet=True)
-        amen_pep8 = "models/amenity.py"
-        test_amen_pep8 = "tests/test_models/test_amenity.py"
-        result = style.check_files([amen_pep8, test_amen_pep8])
-        self.assertEqual(result.total_errors, 0)
+    """Test Cases for the Amenity class."""
 
+    def setUp(self):
+        """Sets up test methods."""
+        pass
 
-class TestDocsBaseModel(unittest.TestCase):
-    """test docstrings for base and test_base files"""
+    def tearDown(self):
+        """Tears down test methods."""
+        self.resetStorage()
+        pass
 
-    def test_module(self):
-        """check module docstrings"""
-        self.assertTrue(len(amenity.__doc__) > 0)
+    def resetStorage(self):
+        """Resets FileStorage data."""
+        FileStorage._FileStorage__objects = {}
+        if os.path.isfile(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
 
-    def test_class(self):
-        """check class docstrings"""
-        self.assertTrue(len(Amenity.__doc__) > 0)
+    def test_8_instantiation(self):
+        """Tests instantiation of Amenity class."""
 
-    def test_method(self):
-        """check method docstrings"""
-        for func in dir(Amenity):
-            self.assertTrue(len(func.__doc__) > 0)
+        b = Amenity()
+        self.assertEqual(str(type(b)), "<class 'models.amenity.Amenity'>")
+        self.assertIsInstance(b, Amenity)
+        self.assertTrue(issubclass(type(b), BaseModel))
 
+    def test_8_attributes(self):
+        """Tests the attributes of Amenity class."""
+        attributes = storage.attributes()["Amenity"]
+        o = Amenity()
+        for k, v in attributes.items():
+            self.assertTrue(hasattr(o, k))
+            self.assertEqual(type(getattr(o, k, None)), v)
 
 if __name__ == "__main__":
     unittest.main()

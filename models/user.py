@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-"""This file contain the class user"""
-
+"""Module for User class."""
 from models.base_model import BaseModel
 
 
 class User(BaseModel):
-    """
-    User class that inherits from BaseModel class
-    """
+    """Class representing a User."""
     email = ""
     password = ""
     first_name = ""

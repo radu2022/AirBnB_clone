@@ -1,40 +1,52 @@
 #!/usr/bin/python3
-"""Unittest for test file: class and methods"""
+"""Unittest module for the City Class."""
 
-import pep8
 import unittest
-from models import city
+from datetime import datetime
+import time
 from models.city import City
+import re
+import json
+from models.engine.file_storage import FileStorage
+import os
+from models import storage
+from models.base_model import BaseModel
 
 
-class TestBaseModelpep8(unittest.TestCase):
-    """Validate pep8"""
+class TestCity(unittest.TestCase):
 
-    def test_pep8(self):
-        """test for base file and test_base file pep8"""
-        style = pep8.StyleGuide(quiet=True)
-        city_pep8 = "models/city.py"
-        test_city_pep8 = "tests/test_models/test_city.py"
-        result = style.check_files([city_pep8, test_city_pep8])
-        self.assertEqual(result.total_errors, 0)
+    """Test Cases for the City class."""
 
+    def setUp(self):
+        """Sets up test methods."""
+        pass
 
-class TestDocsBaseModel(unittest.TestCase):
-    """test docstrings for base and test_base files"""
+    def tearDown(self):
+        """Tears down test methods."""
+        self.resetStorage()
+        pass
 
-    def test_module(self):
-        """check module docstrings"""
-        self.assertTrue(len(city.__doc__) > 0)
+    def resetStorage(self):
+        """Resets FileStorage data."""
+        FileStorage._FileStorage__objects = {}
+        if os.path.isfile(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
 
-    def test_class(self):
-        """check class docstrings"""
-        self.assertTrue(len(City.__doc__) > 0)
+    def test_8_instantiation(self):
+        """Tests instantiation of City class."""
 
-    def test_method(self):
-        """check method docstrings"""
-        for func in dir(City):
-            self.assertTrue(len(func.__doc__) > 0)
+        b = City()
+        self.assertEqual(str(type(b)), "<class 'models.city.City'>")
+        self.assertIsInstance(b, City)
+        self.assertTrue(issubclass(type(b), BaseModel))
 
+    def test_8_attributes(self):
+        """Tests the attributes of City class."""
+        attributes = storage.attributes()["City"]
+        o = City()
+        for k, v in attributes.items():
+            self.assertTrue(hasattr(o, k))
+            self.assertEqual(type(getattr(o, k, None)), v)
 
 if __name__ == "__main__":
     unittest.main()
