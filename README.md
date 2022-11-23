@@ -207,7 +207,7 @@ $ python3 unittest -m tests/test_console.py
 
 ## Team
 
-[![Seid Hamid](<img src="https://github.com/radu2022/AirBnB/images/Seid_avater.png">https://github.com/account)](https://github.com/radu2022) | [![Leonnie Okojie](https://avatars.githubusercontent.com/u/107578166?v=4)](https://github.com/dewdrops77)
+[![Seid Hamid](<img src="https://github.com/radu2022/AirBnB/images/Seid_avater.png">https://github.com/radu2022/AirBnB/images/Seid_avater.png)](https://github.com/radu2022) | [![Leonnie Okojie](https://avatars.githubusercontent.com/u/107578166?v=4)](https://github.com/dewdrops77)
 :---:|:---:
 [Seid Hamid](https://github.com/radu2022) <a target="_blank" href="https://twitter.com/YasSeid"> <img src="https://pbs.twimg.com/profile_images/1427319814251503618/lxUuqFuV.jpg" height="20"></a> | [Leonnie Okojie](https://github.com/dewdrops77) <a target="_blank" href="https://twitter.com/dewdrops77"> <https://avatars.githubusercontent.com/u/107578166?v=4" height="20"></a>
 
