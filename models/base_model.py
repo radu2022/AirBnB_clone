@@ -12,18 +12,15 @@ dtm = "%Y-%m-%dT%H:%M:%S.%f"
 
 class BaseModel:
     """Base Model"""
-
     def __init__(self, *args, **kwargs):
         """Initialize a BaseModel"""
         if kwargs:
             for key, val in kwargs.items():
                 if key != '__class__':
                     setattr(self, key, val)
-            
-                self.created_at = datetime.strptime(kwargs["created_at"], dtm)
-            if hasattr(self, 'updated_at') and type(self.updated_at) is str:
-                self.updated_at = datetime.strptime(
-                    kwargs["updated_at"], dtm)
+                    self.created_at = datetime.strptime(kwargs["created_at"], dtm)
+                    if hasattr(self, 'updated_at') and type(self.updated_at) is str:
+                        self.updated_at = datetime.strptime(kwargs["updated_at"], dtm)
 
         else:
             self.id = str(uuid.uuid4())
